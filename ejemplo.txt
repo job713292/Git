@@ -1,39 +1,162 @@
-Configuración
- 
- git config --global user.name "Nombre"
- git config --global user.email correo@mail.com
- git config --global core.editor "code --wait"
- git config --global core.autocrlf true
- git config --global init.defaultBranch main
- 
- Ver configuración
- git config --global -e
 
- Comandos básicos
+---
 
-git init: crear un repositorio.
-git add: agregar un archivo a staging.
-git commit -m “mensaje”: guardar el archivo en git con un mensaje.
-git branch: crear una nueva rama.
-git checkout: moverse entre ramas.
-git merge: tiene dos usos. Uno es la fusión de ramas, funcionando como un commit en la rama actual, trayendo la rama indicada. Su otro uso es guardar los cambios de un servidor remoto en nuestro directorio.
-git merge --abort: Se usa para abortar un merge.
-git checkout “codigo de version” “nombre del archivo”: volver a la última versión de la que se ha hecho commit.
-git reset: vuelve al pasado sin posibilidad de volver al futuro, se debe usar con especificaciones.
-git reset --soft: vuelve a la versión en el repositorio, pero guarda los cambios en staging. Así, podemos aplicar actualizaciones a un nuevo commit.
-git reset --hard: todo vuelve a su versión anterior
-git reset HEAD: saca los cambios de staging, pero no los borra. Es lo opuesto a git add.
-git rm: elimina los archivos, pero no su historial. Si queremos recuperar algo, solo hay que regresar. se utiliza así:git rm --cached elimina los archivos en staging pero los mantiene en el disco duro.git rm --force elimina los archivos de git y del disco duro.
-git status: estado de archivos en el repositorio.
-git log: historia entera del archivo.
-git log --stat: cambios específicos en el archivo a partir de un commit.
-git show: cambios históricos y específicos hechos en un archivo.
-git diff “codigo de version 1” “codigo de version 2”: comparar cambios entre versiones.
-git diff: comparar directorio con staging.
+# 📌 **Lista de comandos Git y GitHub**
 
-Comandos basicos de GitHub
+## 🔹 1. Configuración inicial
 
-git remote add origin "url del repositorio remoto": se usa para agregar una fuente de repositorio remota.
-git remote -v: se usa para confirmar si la fuente se añadio.
-git pull origin main: se usa para hacer fech y merge de la fuente a local al mismo tiempo.
-git push origin main: se usa para cargar los archivos a GitHub.
+```bash
+git config --global user.name "Tu Nombre"
+git config --global user.email "tu@email.com"
+git config --global core.editor "code --wait"   # Establecer VSCode como editor
+git config --list                              # Ver configuración
+```
+
+---
+
+## 🔹 2. Crear y clonar repositorios
+
+```bash
+git init                                       # Crear repo nuevo en la carpeta actual
+git clone URL                                  # Clonar repo remoto
+git clone -b rama URL                          # Clonar una rama específica
+```
+
+---
+
+## 🔹 3. Estados y cambios
+
+```bash
+git status                                     # Ver estado de los archivos
+git add archivo.txt                            # Añadir un archivo
+git add .                                      # Añadir todos los cambios
+git reset archivo.txt                          # Quitar archivo del área de staging
+git diff                                       # Ver cambios no preparados
+git diff --staged                              # Ver cambios en staging
+```
+
+---
+
+## 🔹 4. Commits
+
+```bash
+git commit -m "Mensaje del commit"             # Commit con mensaje
+git commit -am "Mensaje"                       # Add + commit en un solo paso (solo para archivos ya trackeados)
+git commit --amend                             # Modificar el último commit
+```
+
+---
+
+## 🔹 5. Ramas (branches)
+
+```bash
+git branch                                     # Listar ramas locales
+git branch -a                                  # Listar todas (locales + remotas)
+git branch nombre-rama                         # Crear nueva rama
+git checkout nombre-rama                       # Cambiar de rama
+git checkout -b nombre-rama                    # Crear y moverse a la rama
+git switch nombre-rama                         # Cambiar de rama (forma moderna)
+git switch -c nombre-rama                      # Crear y cambiar
+git branch -d nombre-rama                      # Eliminar rama local
+git push origin --delete nombre-rama           # Eliminar rama remota
+```
+
+---
+
+## 🔹 6. Fusionar y rebase
+
+```bash
+git merge nombre-rama                          # Fusionar rama con la actual
+git rebase nombre-rama                         # Reaplicar commits sobre otra rama
+git rebase --continue                          # Continuar rebase después de resolver conflictos
+git rebase --abort                             # Cancelar rebase
+```
+
+---
+
+## 🔹 7. Remote (GitHub)
+
+```bash
+git remote -v                                  # Ver repos remotos
+git remote add origin URL                      # Conectar repo local con remoto
+git remote remove origin                       # Eliminar remoto
+git fetch origin                               # Descargar ramas remotas sin mezclar
+git pull origin main                           # Descargar y fusionar cambios de main
+git push origin main                           # Subir commits a remoto
+git push -u origin main                        # Subir rama y establecer upstream
+```
+
+---
+
+## 🔹 8. Etiquetas (tags)
+
+```bash
+git tag                                        # Listar tags
+git tag v1.0                                   # Crear tag ligero
+git tag -a v1.0 -m "Versión 1.0"               # Crear tag anotado
+git push origin v1.0                           # Subir tag
+git push origin --tags                         # Subir todos los tags
+git tag -d v1.0                                # Borrar tag local
+git push origin :refs/tags/v1.0                # Borrar tag remoto
+```
+
+---
+
+## 🔹 9. Guardar cambios temporales (stash)
+
+```bash
+git stash                                      # Guardar cambios sin commit
+git stash list                                 # Listar stashes
+git stash apply                                # Aplicar último stash
+git stash pop                                  # Aplicar y borrar stash
+git stash drop                                 # Borrar stash específico
+```
+
+---
+
+## 🔹 10. Deshacer cambios
+
+```bash
+git checkout -- archivo.txt                    # Descartar cambios en un archivo
+git reset --soft HEAD~1                        # Deshacer último commit, manteniendo cambios
+git reset --hard HEAD~1                        # Deshacer último commit y borrar cambios
+git revert ID_COMMIT                           # Revertir un commit sin borrar historial
+```
+
+---
+
+## 🔹 11. Logs e historial
+
+```bash
+git log                                        # Ver historial
+git log --oneline                              # Resumen en una línea
+git log --graph --oneline --all                # Historial en forma de grafo
+git show ID_COMMIT                             # Ver detalles de un commit
+```
+
+---
+
+## 🔹 12. GitHub (via CLI `gh`)
+
+*(Necesitas instalar GitHub CLI → [gh CLI](https://cli.github.com/))*
+
+```bash
+gh auth login                                  # Iniciar sesión en GitHub
+gh repo create                                 # Crear repo en GitHub
+gh repo clone usuario/repositorio              # Clonar repo desde GitHub
+gh issue list                                  # Listar issues
+gh pr create                                   # Crear pull request
+gh pr list                                     # Listar pull requests
+gh pr merge NUMERO                             # Hacer merge de un PR
+```
+
+---
+
+## 🔹 13. Otros útiles
+
+```bash
+git fetch --all                                # Traer todas las ramas remotas
+git clean -f                                   # Eliminar archivos no trackeados
+git gc                                         # Optimizar repositorio
+git shortlog -s -n                             # Ver contribuciones por autor
+```
